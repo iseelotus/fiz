@@ -53,7 +53,7 @@ class Category(db.Model):
     __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(50))
+    type = db.Column(db.String(50))
     items = db.relationship('Item', backref='category', lazy='dynamic')
 
     def insert(self):
@@ -70,6 +70,6 @@ class Category(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'description': self.description,
+            'type': self.type,
             'items': self.items
         }

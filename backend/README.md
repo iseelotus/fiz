@@ -20,17 +20,30 @@ The following command installs the dependencies:
 pipenv install
 ```
 
-##### Key Dependencies
-
-- [Flask](http://flask.pocoo.org/) is a lightweight backend microservices framework. Flask is required to handle requests and responses.
-
-- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py.
-
-- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server.
-
-## Database Setup
+### Database Setup
 
 With Postgres running, initiate the database through SQLAlchemy Migrate.
 
-```flask db upgrade```
+```bash
+flask db upgrade
+```
+
+## REST Endpoints
+
+### /items
+
+#### GET
+
+#### POST
+
+#### PATCH
+
+#### DELETE
+
+### /categories/{category_id}/items
+
+#### GET
+
+
+
 

@@ -29,3 +29,12 @@ Then you can check the generated migration, especially the `upgrade()` method. C
 To rollback the database migration, use:
 
 ```$ flask db downgrade```
+
+
+#### Key Dependencies
+
+- [Flask](http://flask.pocoo.org/) is a lightweight backend microservices framework. Flask is required to handle requests and responses.
+
+- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py.
+
+- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server.
