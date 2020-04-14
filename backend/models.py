@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Integer, Numeric, create_engine
 from flask_migrate import Migrate
 
 database_name = 'fiz'
-database_path = 'postgres://{}/{}'.format('localhost:5432', database_name)
+database_path = 'postgresql://{}/{}'.format('localhost:5432', database_name)
 
 db = SQLAlchemy()
 
@@ -25,6 +25,7 @@ class Item(db.Model):
     description = db.Column(db.String(120))
     amount = db.Column(db.Numeric(scale=2), nullable=False)
     date = db.Column(db.Date, nullable=False)
+    expense = db.Column(db.Boolean, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey(
         'categories.id'), nullable=False)
 
@@ -43,8 +44,9 @@ class Item(db.Model):
         return {
             'id': self.id,
             'description': self.description,
-            'amount': self.amount,
+            'amount': str(self.amount),
             'date': self.date,
+            'expense': self.expense,
             'category_id': self.category_id
         }
 

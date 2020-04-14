@@ -28,6 +28,23 @@ With Postgres running, initiate the database through SQLAlchemy Migrate.
 flask db upgrade
 ```
 
+### Running the Server
+
+To run the flask server:
+
+```bash
+export FLASK_APP=api.py
+flask run --reload
+```
+
+### Testing
+
+To run the tests:
+
+```bash
+python test_app.py
+```
+
 ## REST Endpoints
 
 ### /items
@@ -44,6 +61,16 @@ flask db upgrade
 
 #### GET
 
+## Roles
 
+### Analyser
+
+* Analyser can view all items and items by category.
+
+### Data Owner
+
+* Data owner has all permissions a Analyser has.
+
+* Data owner can delete, patch, post items
 
 
