@@ -1,3 +1,4 @@
+import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
@@ -5,7 +6,7 @@ import datetime
 
 from app import create_app
 from models import db, setup_db, Item, Category
-from config import bearer_token
+from config import bearer_token, database
 
 analyser_header = {"Authorization": bearer_token['analyser']}
 data_owner_header = {"Authorization": bearer_token['data_owner']}
@@ -39,8 +40,8 @@ class FizTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "fiz_test"
-        self.database_path = "postgresql://{}/{}".format(
-            'localhost:5432', self.database_name)
+        self.database_path = os.environ.get('DATABASE_URL',"postgresql://{}/{}".format(
+            'localhost:5432', self.database_name))
         setup_db(self.app, self.database_path)
         db.drop_all()
         db.create_all()

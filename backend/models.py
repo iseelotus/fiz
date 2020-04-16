@@ -1,9 +1,10 @@
+import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, Numeric, create_engine
 from flask_migrate import Migrate
 
 database_name = 'fiz'
-database_path = 'postgresql://{}/{}'.format('localhost:5432', database_name)
+database_path = os.environ.get('DATABASE_URL', "postgres://{}/{}".format("localhost:5432", database_name))
 
 db = SQLAlchemy()
 

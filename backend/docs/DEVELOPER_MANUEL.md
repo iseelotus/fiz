@@ -55,10 +55,19 @@ https://dev-8ezs0tce.eu.auth0.com/v2/logout?
 ```
 
 
-#### Key Dependencies
+### Key Dependencies
 
 - [Flask](http://flask.pocoo.org/) is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
 - [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py.
 
 - [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server.
+
+### Hosting: Heroku
+
+https://fsnd-fiz.herokuapp.com/ | https://git.heroku.com/fsnd-fiz.git
+
+heroku addons:create heroku-postgresql:hobby-dev --app fsnd-fiz
+
+postgres://bkodyisdemyiou:6389e43877dc26cc1fa6fa8d5cc51ef2a3a683530f85c4d5d717ee07939dad76@ec2-3-234-109-123.compute-1.amazonaws.com:5432/devacqgh32g3c0
+
