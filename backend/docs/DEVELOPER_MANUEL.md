@@ -30,6 +30,30 @@ To rollback the database migration, use:
 
 ```$ flask db downgrade```
 
+## Authorization
+
+### Auth0
+
+Auth0 is used for third party authorization.
+
+To log in:
+
+```
+https://dev-8ezs0tce.eu.auth0.com/authorize?
+    audience=fiz&
+    response_type=token&
+    client_id=og57jjr38vAcWvpVzzucqT1usLzokz0a&
+    redirect_uri=http://localhost:5000/login-callback
+
+```
+
+To log out:
+
+```
+https://dev-8ezs0tce.eu.auth0.com/v2/logout?
+  client_id=og57jjr38vAcWvpVzzucqT1usLzokz0a
+```
+
 
 #### Key Dependencies
 

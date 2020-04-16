@@ -33,8 +33,18 @@ flask db upgrade
 To run the flask server:
 
 ```bash
-export FLASK_APP=api.py
-flask run --reload
+$ pipenv shell
+$ export FLASK_APP=api.py
+$ flask run --reload
+```
+
+### Running the Tests
+
+To run the tests:
+
+```
+$ pipenv shell
+$ python test-app.py
 ```
 
 ### Testing
@@ -51,26 +61,161 @@ python test_app.py
 
 #### GET
 
+Get items.
+
+Response example:
+
+```
+{
+    "items": [
+        {
+            "amount": "2800.25",
+            "category_id": 3,
+            "date": "Fri, 31 Jan 2020 00:00:00 GMT",
+            "description": "salary",
+            "expense": false,
+            "id": 1
+        },
+        {
+            "amount": "16.99",
+            "category_id": 1,
+            "date": "Fri, 31 Jan 2020 00:00:00 GMT",
+            "description": "Aldi",
+            "expense": true,
+            "id": 2
+        },
+        {
+            "amount": "8.32",
+            "category_id": 1,
+            "date": "Sat, 08 Feb 2020 00:00:00 GMT",
+            "description": "Netto",
+            "expense": true,
+            "id": 3
+        }
+    ],
+    "success": true
+}
+```
+
 #### POST
+
+Create new item.
+
+Body example:
+
+```
+{
+    "description": "florist",
+    "amount": "8.99",
+    "date": "20200308",
+    "expense": true,
+    "category_id": 4
+}
+```
+
+Response example:
+
+```
+{
+    "created": 9,
+    "items": [
+        {
+            "amount": "16.5",
+            "category_id": 4,
+            "date": "Thu, 13 Feb 2020 00:00:00 GMT",
+            "description": "Treptower Klause",
+            "expense": true,
+            "id": 5
+        },
+        {
+            "amount": "8.99",
+            "category_id": 4,
+            "date": "Sun, 08 Mar 2020 00:00:00 GMT",
+            "description": "florist",
+            "expense": true,
+            "id": 8
+        },
+        {
+            "amount": "8.99",
+            "category_id": 4,
+            "date": "Sun, 08 Mar 2020 00:00:00 GMT",
+            "description": "florist",
+            "expense": true,
+            "id": 9
+        }
+    ],
+    "success": true
+}
+```
+
+### /items/{item_id}
 
 #### PATCH
 
+Update existing item with the id **item_id**
+
+Response example:
+
+```
+{
+    "success": true
+}
+```
+
 #### DELETE
+
+Delete an existing item. If the item doesn't exist, return 404.
+
+Response example:
+
+```
+{
+    "deleted": 9,
+    "success": true
+}
+```
 
 ### /categories/{category_id}/items
 
 #### GET
 
+Get all items under given category with id **category_id**.
+
+Response example:
+
+```
+{
+    "category_id": 1,
+    "items": [
+        {
+            "amount": "16.99",
+            "category_id": 1,
+            "date": "Fri, 31 Jan 2020 00:00:00 GMT",
+            "description": "Aldi",
+            "expense": true,
+            "id": 2
+        },
+        {
+            "amount": "8.32",
+            "category_id": 1,
+            "date": "Sat, 08 Feb 2020 00:00:00 GMT",
+            "description": "Netto",
+            "expense": true,
+            "id": 3
+        }
+    ],
+    "success": true
+}
+```
+
 ## Roles
 
 ### Analyser
 
-* Analyser can view all items and items by category.
+- Analyser can view all items and items by category.
 
 ### Data Owner
 
-* Data owner has all permissions a Analyser has.
+- Data owner has all permissions a Analyser has.
 
-* Data owner can delete, patch, post items
-
-
+- Data owner can delete, patch, post items

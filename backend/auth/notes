@@ -1,0 +1,9 @@
+https://dev-8ezs0tce.eu.auth0.com/authorize?
+    audience=fiz&
+    response_type=token&
+    client_id=og57jjr38vAcWvpVzzucqT1usLzokz0a&
+    redirect_uri=http://localhost:5000/login-callback
+
+https://dev-8ezs0tce.eu.auth0.com/v2/logout?
+  client_id=og57jjr38vAcWvpVzzucqT1usLzokz0a
+

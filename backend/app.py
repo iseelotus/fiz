@@ -7,8 +7,10 @@ from decimal import Decimal
 from werkzeug.exceptions import HTTPException
 
 from models import setup_db, Item, Category
+from auth.auth import AuthError, requires_auth
+from config import pagination
 
-ITEMS_PER_PAGE = 10
+ITEMS_PER_PAGE = pagination['items']
 
 
 def create_app(test_config=None):
@@ -28,7 +30,8 @@ def create_app(test_config=None):
         return response
 
     @app.route('/items', methods=['GET'])
-    def get_items():
+    @requires_auth('get:items')
+    def get_items(token):
         all_items = Item.query.order_by(Item.id).all()
         current_items = paginate_items(request, all_items)
 
@@ -44,7 +47,8 @@ def create_app(test_config=None):
             }), 200
 
     @app.route('/items', methods=['POST'])
-    def create_item():
+    @requires_auth('post:items')
+    def create_item(token):
         body = request.get_json()
         description = body.get('description', None)
         amount = body.get('amount', None)
@@ -54,7 +58,8 @@ def create_app(test_config=None):
         category_id = body.get('category_id', 1)
 
         try:
-            item = Item(description=description, amount=amount, date=date, expense=expense, category_id=category_id)
+            item = Item(description=description, amount=amount,
+                        date=date, expense=expense, category_id=category_id)
             item.insert()
 
             selection = Item.query.order_by(Item.id).all()
@@ -70,7 +75,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/items/<int:item_id>', methods=['PATCH'])
-    def edit_item(item_id):
+    @requires_auth('patch:items')
+    def edit_item(token, item_id):
         body = request.get_json()
         description = body.get('description')
         amount = body.get('amount')
@@ -92,13 +98,14 @@ def create_app(test_config=None):
                 item.category_id = category_id
             item.update()
             return jsonify({
-            'success': True
-        }), 200
+                'success': True
+            }), 200
         else:
             abort(404)
 
     @app.route('/items/<int:item_id>', methods=['DELETE'])
-    def delete_item(item_id):
+    @requires_auth('delete:items')
+    def delete_item(token, item_id):
         item = Item.query.get(item_id)
         if item:
             item.delete()
@@ -110,10 +117,12 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route('/categories/<int:category_id>/items', methods=['GET'])
-    def get_items_by_category(category_id):
+    @requires_auth('get:items-by-category')
+    def get_items_by_category(token, category_id):
         category = Category.query.get(category_id)
         if category:
-            items = [item.format() for item in Item.query.filter(Item.category_id==category_id).all()]
+            items = [item.format() for item in Item.query.filter(
+                Item.category_id == category_id).all()]
             if len(items) == 0:
                 return jsonify({
                     'items': [],
@@ -128,7 +137,37 @@ def create_app(test_config=None):
         else:
             abort(404)
 
+    # Error Handling
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "unprocessable"
+        }), 422
+
+    @app.errorhandler(404)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found"
+        }), 404
+
+    @app.errorhandler(401)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": "Not authorized"
+        }), 401
+
+    @app.errorhandler(AuthError)
+    def auth_error(e):
+        return jsonify(e.error), e.status_code
+
     return app
+
 
 def paginate_items(request, all_items):
     page = request.args.get('page', 1, type=int)
@@ -136,6 +175,7 @@ def paginate_items(request, all_items):
     end = start + ITEMS_PER_PAGE
     items = [item.format() for item in all_items]
     return items[start:end]
+
 
 APP = create_app()
 
